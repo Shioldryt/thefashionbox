@@ -1,20 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// In App.js in a new project
 
-export default function App() {
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import SplashPage from './screens/SplashPage';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { UserContext } from './components/User';
+import user from './components/Login'
+
+const Stack = createNativeStackNavigator();
+
+const splash = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{
+        headerShown: false,
+      }}>
+        <Stack.Screen name="splash" component={SplashPage} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+function App() {
+  const user = React.createContext(UserContext)
+  return (
+    <UserContext.Provider value={user}>
+      <SafeAreaProvider>
+      {splash()}
+      </SafeAreaProvider>
+    </UserContext.Provider>
+
+
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
